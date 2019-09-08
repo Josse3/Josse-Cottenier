@@ -1,8 +1,7 @@
 svg.title {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    grid-area: 1 / 1 / span 1 / span 2;
+    transform: translateY(20vh);
+    animation: slide-up 1.5s ease forwards 2.5s;
 }
 
 svg.title path {
@@ -93,5 +92,11 @@ svg.title path:nth-child(14) {
 
     to {
         fill: white;
+    }
+}
+
+@keyframes slide-up {
+    to {
+        transform: translateY(0);
     }
 }
