@@ -21,11 +21,6 @@ const svg = (
 );
 
 const Title = () => {
-    useEffect(() => {
-        document.querySelectorAll('svg path').forEach((path, i) => {
-            console.log(`${i}: ${path.getTotalLength()}`)
-        })
-    })
     return (
         svg
     );
