@@ -3,6 +3,8 @@ import './Card.css';
 
 import developerImg from '../../../images/developer-card/code.png';
 import personImg from '../../../images/developer-card/person.png';
+import portfolioImg from '../../../images/developer-card/portfolio.png';
+import contactImg from '../../../images/developer-card/contact.png';
 
 const Card = () => {
     const icons = [
@@ -13,6 +15,14 @@ const Card = () => {
         {
             text: 'personal',
             href: personImg
+        },
+        {
+            text: 'portfolio',
+            href: portfolioImg
+        },
+        {
+            text: 'contact',
+            href: contactImg
         }
     ];
 
