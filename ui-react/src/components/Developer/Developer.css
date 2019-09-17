@@ -1,6 +1,0 @@
-.developer {
-    width: 100vw;
-    min-height: 100vh;
-    background-image: linear-gradient(-45deg, #111, #333);
-    position: relative; /* to let child use position: absolute */
-}
