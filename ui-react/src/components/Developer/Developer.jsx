@@ -5,7 +5,7 @@ import Card from './Card/Card';
 
 const Developer = () => {
     return (
-        <div className="developer">
+        <div className="developer" id="developer">
             <Card />
         </div>
     );
