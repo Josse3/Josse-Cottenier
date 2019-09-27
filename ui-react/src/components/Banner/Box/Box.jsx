@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-scroll';
 import './Box.css';
 
 const Box = props => {
@@ -6,7 +7,13 @@ const Box = props => {
         <div className={`box ${props.title.replace(' ', '-')}`}>
             <h1>{props.title}</h1>
             <p>{props.description}</p>
-            <button>Read more</button>
+            <Link
+                to={props.title.replace('web ', '')}
+                duration={750}
+                smooth={true}
+            >
+                <button>Read more</button>
+            </Link>
         </div>
     )
 }
