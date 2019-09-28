@@ -11,14 +11,37 @@ import personalImg from '../../../images/personal-image.webp';
 import './SkillChartItem/SkillChartItem';
 import SkillChartItem from './SkillChartItem/SkillChartItem';
 
+import Recaptcha from 'react-recaptcha';
+
 const Card = () => {
     const [currentPage, setCurrentPage] = useState('developer');
-    const [contactFormInput, setContactFormInput] = useState({});
+    const [contactFormInput, setContactFormInput] = useState({ captcha: false });
+    const [contactFormError, setContactFormError] = useState('');
 
     const handleContactFormSubmit = event => {
         event.preventDefault();
+        const obligedFields = ['firstName', 'lastName', 'message'];
+        if (!obligedFields.every(key => contactFormInput[key] ? true : false)) {
+            return setContactFormError('Please fill in the 3 obliged fields');
+        }
+        if (!contactFormInput.captcha) {
+            return setContactFormError('Please fill in the CAPTCHA.');
+        }
+
         console.log(contactFormInput);
     }
+
+    const handleContactFormCaptcha = token => {
+        fetch(`/captcha/${token}`)
+            .then(response => {
+                if (!response.ok) throw Error('Error verifying user');
+                return response.json();
+            })
+            .then(jsonResponse => {
+                console.log(jsonResponse);
+                setContactFormInput({ ...contactFormInput, captcha: jsonResponse })
+            });
+    };
 
     const skillChart = [
         {
@@ -71,7 +94,7 @@ const Card = () => {
             title: 'personal',
             content: (
                 <>
-                    <img src={personalImg} alt="A picture of Josse" className="personal-image" />
+                    <img src={personalImg} alt="Josse Cottenier" className="personal-image" />
                     <ul>
                         <li><b>Name:</b> Josse Cottenier</li>
                         <li><b>Age:</b> {Math.abs(new Date(Date.now() - new Date(2003, 13, 10)).getUTCFullYear() - 1970)}</li>
@@ -97,22 +120,34 @@ const Card = () => {
                             placeholder="First name"
                             onChange={e => setContactFormInput({ ...contactFormInput, firstName: e.target.value })}
                         />
+
                         <input
                             type="text"
                             placeholder="Last name"
                             onChange={e => setContactFormInput({ ...contactFormInput, lastName: e.target.value })}
                         />
                     </div>
+
                     <input
                         type="text"
                         placeholder="E-mail (optional)"
                         onChange={e => setContactFormInput({ ...contactFormInput, email: e.target.value })}
                     />
+
                     <textarea
                         placeholder="Message"
                         onChange={e => setContactFormInput({ ...contactFormInput, message: e.target.value })}
                     />
+
+                    <Recaptcha
+                        sitekey="6LdTgq0UAAAAABcYBgXNESbAPAfTgL_PbEBuCCOP"
+                        render="explicit"
+                        verifyCallback={handleContactFormCaptcha}
+                    />
+
                     <input type="submit" value="Submit message" />
+
+                    {contactFormError && <div className="error">{contactFormError}</div>}
                 </form>
             ),
             img: contactImg

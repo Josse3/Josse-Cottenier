@@ -1,5 +1,7 @@
 node_modules
 ui-react/node_modules
 
+.env
+
 ui-react/src/**/*.css
 ui-react/src/**/*.css.map
