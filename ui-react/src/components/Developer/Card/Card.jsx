@@ -13,6 +13,12 @@ import SkillChartItem from './SkillChartItem/SkillChartItem';
 
 const Card = () => {
     const [currentPage, setCurrentPage] = useState('developer');
+    const [contactFormInput, setContactFormInput] = useState({});
+
+    const handleContactFormSubmit = event => {
+        event.preventDefault();
+        console.log(contactFormInput);
+    }
 
     const skillChart = [
         {
@@ -54,7 +60,7 @@ const Card = () => {
                     <h2>Skill Chart</h2>
                     <div className="skill-chart">
                         {skillChart.map(item => {
-                            return <SkillChartItem title={item.title} years={item.years} />
+                            return <SkillChartItem title={item.title} years={item.years} key={item.title} />
                         })}
                     </div>
                 </>
@@ -83,6 +89,32 @@ const Card = () => {
         },
         {
             title: 'contact',
+            content: (
+                <form onSubmit={handleContactFormSubmit}>
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="First name"
+                            onChange={e => setContactFormInput({ ...contactFormInput, firstName: e.target.value })}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Last name"
+                            onChange={e => setContactFormInput({ ...contactFormInput, lastName: e.target.value })}
+                        />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="E-mail (optional)"
+                        onChange={e => setContactFormInput({ ...contactFormInput, email: e.target.value })}
+                    />
+                    <textarea
+                        placeholder="Message"
+                        onChange={e => setContactFormInput({ ...contactFormInput, message: e.target.value })}
+                    />
+                    <input type="submit" value="Submit message" />
+                </form>
+            ),
             img: contactImg
         }
     ];
