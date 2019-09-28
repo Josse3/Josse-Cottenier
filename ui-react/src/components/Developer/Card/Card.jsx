@@ -6,6 +6,8 @@ import personImg from '../../../images/developer-card/person.png';
 import portfolioImg from '../../../images/developer-card/portfolio.png';
 import contactImg from '../../../images/developer-card/contact.png';
 
+import personalImg from '../../../images/personal-image.webp';
+
 import './SkillChartItem/SkillChartItem';
 import SkillChartItem from './SkillChartItem/SkillChartItem';
 
@@ -62,13 +64,16 @@ const Card = () => {
         {
             title: 'personal',
             content: (
-                <ul>
-                    <li><b>Name:</b> Josse Cottenier</li>
-                    <li><b>Age:</b> {Math.abs(new Date(Date.now() - new Date(2003, 13, 10)).getUTCFullYear() - 1970)}</li>
-                    <li><b>Profession:</b> Student</li>
-                    <li><b>Curriculum:</b> Latin and ancient Greek</li>
-                    <li><b>Hobbies:</b> Music (piano and singing), programming</li>
-                </ul>
+                <>
+                    <img src={personalImg} alt="A picture of Josse" className="personal-image" />
+                    <ul>
+                        <li><b>Name:</b> Josse Cottenier</li>
+                        <li><b>Age:</b> {Math.abs(new Date(Date.now() - new Date(2003, 13, 10)).getUTCFullYear() - 1970)}</li>
+                        <li><b>Profession:</b> Student</li>
+                        <li><b>Curriculum:</b> Latin and ancient Greek</li>
+                        <li><b>Hobbies:</b> Music (piano and singing), programming</li>
+                    </ul>
+                </>
             ),
             img: personImg
         },
