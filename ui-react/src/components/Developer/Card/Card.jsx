@@ -20,15 +20,13 @@ const Card = () => {
 
     const handleContactFormSubmit = event => {
         event.preventDefault();
-        const obligedFields = ['firstName', 'lastName', 'message'];
+        /* const obligedFields = ['firstName', 'lastName', 'message'];
         if (!obligedFields.every(key => contactFormInput[key] ? true : false)) {
             return setContactFormError('Please fill in the 3 obliged fields');
         }
         if (!contactFormInput.captcha) {
             return setContactFormError('Please fill in the CAPTCHA.');
-        }
-
-        console.log(contactFormInput);
+        } */
     }
 
     const handleContactFormCaptcha = token => {
@@ -37,10 +35,7 @@ const Card = () => {
                 if (!response.ok) throw Error('Error verifying user');
                 return response.json();
             })
-            .then(jsonResponse => {
-                console.log(jsonResponse);
-                setContactFormInput({ ...contactFormInput, captcha: jsonResponse })
-            });
+            .then(jsonResponse => setContactFormInput({ ...contactFormInput, captcha: jsonResponse }));
     };
 
     const skillChart = [
@@ -113,42 +108,44 @@ const Card = () => {
         {
             title: 'contact',
             content: (
-                <form onSubmit={handleContactFormSubmit}>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="First name"
-                            onChange={e => setContactFormInput({ ...contactFormInput, firstName: e.target.value })}
-                        />
+                <>
+                    <form onSubmit={handleContactFormSubmit}>
+                        <div>
+                            <input
+                                type="text"
+                                placeholder="First name"
+                                onChange={e => setContactFormInput({ ...contactFormInput, firstName: e.target.value })}
+                            />
+
+                            <input
+                                type="text"
+                                placeholder="Last name"
+                                onChange={e => setContactFormInput({ ...contactFormInput, lastName: e.target.value })}
+                            />
+                        </div>
 
                         <input
                             type="text"
-                            placeholder="Last name"
-                            onChange={e => setContactFormInput({ ...contactFormInput, lastName: e.target.value })}
+                            placeholder="E-mail (optional)"
+                            onChange={e => setContactFormInput({ ...contactFormInput, email: e.target.value })}
                         />
-                    </div>
 
-                    <input
-                        type="text"
-                        placeholder="E-mail (optional)"
-                        onChange={e => setContactFormInput({ ...contactFormInput, email: e.target.value })}
-                    />
+                        <textarea
+                            placeholder="Message"
+                            onChange={e => setContactFormInput({ ...contactFormInput, message: e.target.value })}
+                        />
 
-                    <textarea
-                        placeholder="Message"
-                        onChange={e => setContactFormInput({ ...contactFormInput, message: e.target.value })}
-                    />
+                        <Recaptcha
+                            sitekey="6LdTgq0UAAAAABcYBgXNESbAPAfTgL_PbEBuCCOP"
+                            render="explicit"
+                            verifyCallback={handleContactFormCaptcha}
+                        />
 
-                    <Recaptcha
-                        sitekey="6LdTgq0UAAAAABcYBgXNESbAPAfTgL_PbEBuCCOP"
-                        render="explicit"
-                        verifyCallback={handleContactFormCaptcha}
-                    />
+                        <input type="submit" value="Submit message" disabled title="Contact page is currently disabled, we're working on an issue." />
 
-                    <input type="submit" value="Submit message" />
-
-                    {contactFormError && <div className="error">{contactFormError}</div>}
-                </form>
+                        {contactFormError && <div className="error">{contactFormError}</div>}
+                    </form>
+                </>
             ),
             img: contactImg
         }
