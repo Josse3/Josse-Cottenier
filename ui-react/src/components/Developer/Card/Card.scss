@@ -1,19 +1,29 @@
 .card {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     border-radius: 1.5rem;
     background: #ccc;
     width: 70vw;
-    height: 70vh;
+    min-height: 70vh;
     display: grid;
-    grid-template-columns: 10% 90%;
+    grid-template: 1fr / 10% 90%;
+
+    @media only screen and (max-width: 1119px) {
+        width: 90vw;
+    }
+
+    @media only screen and (max-width: 865px) {
+        height: auto;
+        grid-template: 5rem 1fr / 1fr;
+    }
 
     .icon-menu {
         display: grid;
         justify-items: stretch;
         align-items: stretch;
+
+        @media only screen and (max-width: 865px) {
+            grid-template: 1fr / repeat(4, 1fr);
+            width: 100%;
+        }
 
         .icon-container {
             display: flex;
@@ -24,12 +34,30 @@
             text-transform: capitalize;
             cursor: pointer;
 
+            @media only screen and (max-width: 865px) {
+                height: 5rem;
+            }
+
             &.active {
                 background-color: #bbb;
             }
 
             img {
                 width: 60%;
+
+                @media only screen and (max-width: 1260px) {
+                    width: 80%;
+                }
+
+                @media only screen and (max-width: 865px) and (min-width: 440px) {
+                    width: auto;
+                }
+            }
+
+            p {
+                @media only screen and (max-width: 865px) {
+                    display: none;
+                }
             }
         }
     }
@@ -72,8 +100,16 @@
         grid-gap: .5rem;
         justify-items: stretch;
 
+        @media only screen and (max-width: 449px) {
+            grid-template: repeat(7, 1fr) / 1fr;
+        }
+
         div:last-child {
             grid-area: 4 / 1 / span 1 / span 2;
+
+            @media only screen and (max-width: 449px) {
+                grid-area: auto;
+            }
         }
     }
 
@@ -110,14 +146,27 @@
             display: flex;
             justify-content: space-between;
 
+            @media only screen and (max-width: 730px) {
+                flex-direction: column;
+            }
+
             input {
                 width: 45%;
+
+                @media only screen and (max-width: 730px) {
+                    width: inherit;
+
+                    & + input {
+                        margin-top: 1rem;
+                    }
+                }
             }
         }
 
         #g-recaptcha {
             display: flex;
             justify-content: center;
+            align-items: center;
             margin-top: 1rem;
         }
 

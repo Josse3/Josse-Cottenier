@@ -2,6 +2,10 @@ svg.title {
     grid-area: 1 / 1 / span 1 / span 2;
     transform: translateY(20vh);
     animation: slide-up 1.5s ease forwards 2.5s;
+
+    @media only screen and (max-width: 1390px) {
+        width: 99vw;
+    }
     
     path {
         animation: 

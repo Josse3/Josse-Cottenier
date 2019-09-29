@@ -7,6 +7,10 @@
     justify-items: center;
     align-items: center;
 
+    @media only screen and (max-width: 723px) {
+        grid-template: 200px 1fr / 1fr;
+    }
+
     div {
         align-self: flex-start;
         display: flex;
@@ -20,6 +24,10 @@
             width: 80%;
             text-align: center;
             color: white;
+
+            @media only screen and (max-width: 667px) {
+                font-size: 1.5rem;
+            }
         }
 
         button {
@@ -30,6 +38,10 @@
             text-align: center;
             margin-top: 2rem;
             cursor: pointer;
+
+            @media only screen and (max-width: 667px) {
+                font-size: 1.75rem;
+            }
         }
     }
 }
