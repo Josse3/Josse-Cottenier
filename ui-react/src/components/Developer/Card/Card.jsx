@@ -16,6 +16,7 @@ import Recaptcha from 'react-recaptcha';
 const Card = () => {
     const [currentPage, setCurrentPage] = useState('developer');
 
+    // Contact form
     const contactFormInput = {
         firstName: useRef(null),
         lastName: useRef(null),
@@ -23,11 +24,13 @@ const Card = () => {
         message: useRef(null)
     }
     const [successfulCaptcha, setSucessfulCaptcha] = useState(false);
-
     const [contactFormError, setContactFormError] = useState('');
+    const [messageSent, setMessageSent] = useState(false);
 
     const handleContactFormSubmit = event => {
         event.preventDefault();
+        // Resetting error
+        setContactFormError('');
         const formValue = {};
         Object.entries(contactFormInput).forEach(entry => formValue[entry[0]] = entry[1].current.value);
         const obligedFields = ['firstName', 'lastName', 'message'];
@@ -41,8 +44,12 @@ const Card = () => {
         const queryString = Object.entries(formValue).map(obj => obj[0] + '=' + encodeURIComponent(obj[1])).join('&');
 
         fetch(`/contactform/?${queryString}`, { method: 'POST' })
-            .then(response => { if (!response.ok) throw Error('Failed submitting contact form, please try again later.') })
+            .then(response => {
+                if (!response.ok) throw Error('Failed submitting contact form, please try again later.');
+            })
             .catch(console.error);
+
+        setMessageSent(true);
     }
 
     const handleContactFormCaptcha = token => {
@@ -162,6 +169,8 @@ const Card = () => {
                         <input type="submit" value="Submit message" />
 
                         {contactFormError && <div className="error">{contactFormError}</div>}
+
+                        {messageSent && <div className="success-message">Thank you for submitting the form! I will reach out to you as soon as possible.</div>}
                     </form>
                 </>
             ),

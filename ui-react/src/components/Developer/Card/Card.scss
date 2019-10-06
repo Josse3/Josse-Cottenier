@@ -174,13 +174,21 @@
             cursor: pointer;
         }
 
-        .error {
-            background: rgba(255, 0, 0, 0.3);
-            border: 1px solid darkred;
+        .error, .success-message {
             border-radius: .5rem;
             padding: 1rem .5rem;
             margin-top: 1rem;
             text-align: center;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.3);
+            border: 1px solid darkred;
+        }
+
+        .success-message {
+            background: #A1E3A1;
+            border: 1px solid darkgreen;
         }
 
         @media only screen and (max-width: 800px) {
