@@ -22,7 +22,7 @@ router.post('/', jsonParser, (req, res) => {
             from: 'Contact Form Message',
             to: process.env.MAIL_RECEIVER,
             subject: `Message from ${decodeURIComponent(req.query.firstName)} ${decodeURIComponent(req.query.lastName)}`,
-            html: `<h1>${decodeURIComponent(req.query.firstName)} ${decodeURIComponent(req.query.lastName)}</h1> <br /> ${req.query.email && `<b>${decodeURIComponent(req.query.email)}</b> <br />`} <p>${decodeURIComponent(req.query.message)}</p>`
+            html: `<h1>${decodeURIComponent(req.query.firstName)} ${decodeURIComponent(req.query.lastName)}</h1> ${req.query.email && `<b>${decodeURIComponent(req.query.email)}</b> <br />`} <p>${decodeURIComponent(req.query.message)}</p>`
         });
     }
 
