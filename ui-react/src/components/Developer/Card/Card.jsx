@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import './Card.css';
 
 import developerImg from '../../../images/developer-card/code.png';
@@ -15,18 +15,34 @@ import Recaptcha from 'react-recaptcha';
 
 const Card = () => {
     const [currentPage, setCurrentPage] = useState('developer');
-    const [contactFormInput, setContactFormInput] = useState({ captcha: false });
+
+    const contactFormInput = {
+        firstName: useRef(null),
+        lastName: useRef(null),
+        email: useRef(null),
+        message: useRef(null)
+    }
+    const [successfulCaptcha, setSucessfulCaptcha] = useState(false);
+
     const [contactFormError, setContactFormError] = useState('');
 
     const handleContactFormSubmit = event => {
         event.preventDefault();
-        /* const obligedFields = ['firstName', 'lastName', 'message'];
-        if (!obligedFields.every(key => contactFormInput[key] ? true : false)) {
+        const formValue = {};
+        Object.entries(contactFormInput).forEach(entry => formValue[entry[0]] = entry[1].current.value);
+        const obligedFields = ['firstName', 'lastName', 'message'];
+        if (!obligedFields.every(key => formValue[key] ? true : false)) {
             return setContactFormError('Please fill in the 3 obliged fields');
         }
-        if (!contactFormInput.captcha) {
+        if (!successfulCaptcha) {
             return setContactFormError('Please fill in the CAPTCHA.');
-        } */
+        }
+
+        const queryString = Object.entries(formValue).map(obj => obj[0] + '=' + encodeURIComponent(obj[1])).join('&');
+
+        fetch(`/contactform/?${queryString}`, { method: 'POST' })
+            .then(response => { if (!response.ok) throw Error('Failed submitting contact form, please try again later.') })
+            .catch(console.error);
     }
 
     const handleContactFormCaptcha = token => {
@@ -35,7 +51,9 @@ const Card = () => {
                 if (!response.ok) throw Error('Error verifying user');
                 return response.json();
             })
-            .then(jsonResponse => setContactFormInput({ ...contactFormInput, captcha: jsonResponse }));
+            .then(jsonResponse => {
+                setSucessfulCaptcha(jsonResponse);
+            });
     };
 
     const skillChart = [
@@ -114,25 +132,25 @@ const Card = () => {
                             <input
                                 type="text"
                                 placeholder="First name"
-                                onChange={e => setContactFormInput({ ...contactFormInput, firstName: e.target.value })}
+                                ref={contactFormInput.firstName}
                             />
 
                             <input
                                 type="text"
                                 placeholder="Last name"
-                                onChange={e => setContactFormInput({ ...contactFormInput, lastName: e.target.value })}
+                                ref={contactFormInput.lastName}
                             />
                         </div>
 
                         <input
                             type="text"
                             placeholder="E-mail (optional)"
-                            onChange={e => setContactFormInput({ ...contactFormInput, email: e.target.value })}
+                            ref={contactFormInput.email}
                         />
 
                         <textarea
                             placeholder="Message"
-                            onChange={e => setContactFormInput({ ...contactFormInput, message: e.target.value })}
+                            ref={contactFormInput.message}
                         />
 
                         <Recaptcha
@@ -141,7 +159,7 @@ const Card = () => {
                             verifyCallback={handleContactFormCaptcha}
                         />
 
-                        <input type="submit" value="Submit message" disabled title="Contact page is currently disabled, we're working on an issue." />
+                        <input type="submit" value="Submit message" />
 
                         {contactFormError && <div className="error">{contactFormError}</div>}
                     </form>
